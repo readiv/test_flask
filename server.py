@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     wather = weather_by_city("Torrevieja")
-    print(wather)
+    # print(wather)
     list_news = get_news("http://www.torrevieja.es/sal/index.aspx")
     # print(list_news)
     if wather and list_news:
