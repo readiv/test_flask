@@ -13,12 +13,13 @@ app = Flask(__name__)
 def updatedata():
     global wather,list_news
     while True:
+        wather_t = weather_by_city("Torrevieja")
+        list_news_t = get_news("http://www.torrevieja.es/sal/index.aspx")
+        
         lock.acquire()
         try:
-            wather = weather_by_city("Torrevieja")
-            # print(wather)
-            list_news = get_news("http://www.torrevieja.es/sal/index.aspx")
-            # print(list_news)
+            wather = wather_t
+            list_news = list_news_t
         finally:
             lock.release()
         time.sleep(600)
