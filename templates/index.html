@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Прогноз погоды</title>
+        <!-- Bootstrap core CSS -->
+        <link href="/static/css/bootstrap.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="/static/css/jumbotron.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="jumbotron">
+            <div class="container">
+                {% if weather %}
+                    <h1 class="display-3">Сейчас в Торревьехе {{ weather.temp_C }}</h1>
+                    <p>Ощущается как  {{ weather.FeelsLikeC }}</p>
+                {% else %}
+                    <h1 class="display-3">Сервис погоды временно недоступен</h1>
+                {% endif %}
+                <p></p>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="container">
+            <!-- Example row of columns -->
+            {% for i in range(0,len_list_news,3) %}
+                <div class="row">
+                    {% if i<len_list_news %}
+                        <div class="col-md-4">
+                            <h2>Новость № {{i+1}} от {{list_news[i].fecha}}</h2>
+                            <p>{{list_news[i].shorttext}}</p>
+                            <p><a class="btn btn-secondary" href="{{list_news[i//3].url}}" role="button">View details »</a></p>
+                        </div>
+                    {% endif %}
+                    {% if i+1<len_list_news %}
+                        <div class="col-md-4">
+                            <h2>Новость № {{i+2}} от {{list_news[i+1].fecha}}</h2>
+                            <p>{{list_news[i+1].shorttext}}</p>
+                            <p><a class="btn btn-secondary" href="{{list_news[i//3].url}}" role="button">View details »</a></p>
+                        </div>
+                    {% endif %}
+                    {% if i+2<len_list_news %}
+                        <div class="col-md-4">
+                            <h2>Новость № {{i+3}} от {{list_news[i+2].fecha}}</h2>
+                            <p>{{list_news[i+2].shorttext}}</p>
+                            <p><a class="btn btn-secondary" href="{{list_news[i//3].url}}" role="button">View details »</a></p>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor%}
+            <hr>
+        </div>         
+        <!-- /container -->
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!-- <script src="static/js/jquery.min.js"></script>
+        <script src="static/js/popper.js"></script>
+        <script src="static/js/bootstrap.min.js"></script> -->
+    </body>
+</html>
