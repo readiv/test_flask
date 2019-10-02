@@ -1,13 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
+from setting import API_KEY_YA_TRANSLATE
 
-def get_translate(text):
+def get_translate(text,lang='es-ru'):
     url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?'
-    key = 'trnsl.1.1.20191001T224658Z.a13ec0f352090231.a43d8c6eba456e60589dc2bebe1c55ba966b783f'
-    lang = 'es-ru'
-    r = requests.post(url, data={'key': key, 'text': text, 'lang': lang}).json()
-    print(r["text"][0].strip())
-    return r["text"][0].strip()
+    try:
+        text_translate = requests.post(url, data={'key': API_KEY_YA_TRANSLATE, 'text': text, 'lang': lang})
+        text_translate = text_translate.json()["text"][0]
+        return text_translate
+    except BaseException as e: 
+        print(str(e))
+        return text
 
 def get_news(url):
     try:
@@ -20,20 +23,22 @@ def get_news(url):
         news_url = news_all.findAll("span",class_="WATemail")
         news_fecha = news_all.findAll("span",class_="FechaNoti")
 
-        result = []
+        list_news = []
         for i in range(len(news_shorttext)):
-            result_uno = {}
-            result_uno["shorttext"] = get_translate(str(news_shorttext[i].text))
-            result_uno["url"] = f'http://www.torrevieja.es{news_url[i].find("a")["href"]}'
-            result_uno["fecha"] = str(news_fecha[i].text)
-            result.append(result_uno)
-        return(result)
-    except:
-        print('Сетевая ошибка')
+            one_news = {}
+            one_news["shorttext"] = get_translate(str(news_shorttext[i].text).strip(),"es-ru")
+            # one_news["shorttext"] = str(news_shorttext[i].text).strip()
+            one_news["url"] = f'http://www.torrevieja.es{news_url[i].find("a")["href"]}'
+            one_news["fecha"] = str(news_fecha[i].text)
+            list_news.append(one_news)
+        return(list_news)
+    except BaseException as e: 
+        print(str(e))
         return False
 
 if __name__=="__main__":
+    pass
     # news_list = get_news("http://www.torrevieja.es/sal/index.aspx")
     # if news_list:
     #     print(news_list)
-    get_translate("LA CONCEJALÍA DE JUVENTUD ORGANIZA UN VIAJE A PORTAVENTURA 2019 COINCIDIENDO CON LA CELEBRACIÓN DE HALLOWEEN")
+    #print(get_translate("LA CONCEJALÍA DE JUVENTUD ORGANIZA UN VIAJE A PORTAVENTURA 2019 COINCIDIENDO CON LA CELEBRACIÓN DE HALLOWEEN"))

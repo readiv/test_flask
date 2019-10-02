@@ -32,30 +32,18 @@
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="container">
             <!-- Example row of columns -->
-            {% for i in range(0,len_list_news,3) %}
-                <div class="row">
-                    {% if i<len_list_news %}
+            {% for news in list_news %}
+                {% if loop.index0 % 3 == 0 %}
+                    <div class="row">
+                {% endif%} 
                         <div class="col-md-4">
-                            <h2>Новость № {{i+1}} от {{list_news[i].fecha}}</h2>
-                            <p>{{list_news[i].shorttext}}</p>
-                            <p><a class="btn btn-secondary" href="{{list_news[i//3].url}}" role="button">View details »</a></p>
+                            <h2>Новость от {{news.fecha}}</h2>
+                            <p>{{news.shorttext}}</p>
+                            <p><a class="btn btn-secondary" href="{{news.url}}" role="button">View details »</a></p>
                         </div>
-                    {% endif %}
-                    {% if i+1<len_list_news %}
-                        <div class="col-md-4">
-                            <h2>Новость № {{i+2}} от {{list_news[i+1].fecha}}</h2>
-                            <p>{{list_news[i+1].shorttext}}</p>
-                            <p><a class="btn btn-secondary" href="{{list_news[i//3].url}}" role="button">View details »</a></p>
-                        </div>
-                    {% endif %}
-                    {% if i+2<len_list_news %}
-                        <div class="col-md-4">
-                            <h2>Новость № {{i+3}} от {{list_news[i+2].fecha}}</h2>
-                            <p>{{list_news[i+2].shorttext}}</p>
-                            <p><a class="btn btn-secondary" href="{{list_news[i//3].url}}" role="button">View details »</a></p>
-                        </div>
-                    {% endif %}
-                </div>
+                {% if loop.index0 % 3  == 2 or loop.last %}
+                    </div>
+                {% endif%}
             {% endfor%}
             <hr>
         </div>         
