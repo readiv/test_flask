@@ -1,11 +1,11 @@
+from flask import current_app
 import requests
 from bs4 import BeautifulSoup
-from setting import API_KEY_YA_TRANSLATE
 
 def get_translate(text,lang='es-ru'):
     url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?'
     try:
-        text_translate = requests.post(url, data={'key': API_KEY_YA_TRANSLATE, 'text': text, 'lang': lang})
+        text_translate = requests.post(url, data={'key': current_app.config["API_KEY_YA_TRANSLATE"], 'text': text, 'lang': lang})
         text_translate = text_translate.json()["text"][0]
         return text_translate
     except BaseException as e: 
@@ -26,8 +26,11 @@ def get_news(url):
         list_news = []
         for i in range(len(news_shorttext)):
             one_news = {}
-            one_news["shorttext"] = get_translate(str(news_shorttext[i].text).strip(),"es-ru")
-            # one_news["shorttext"] = str(news_shorttext[i].text).strip()
+            if current_app.config["TRANSLATE"]:
+                one_news["shorttext"] = get_translate(str(news_shorttext[i].text).strip(),
+                                        current_app.config["LANG_TRANSLATE"])
+            else:
+                one_news["shorttext"] = str(news_shorttext[i].text).strip()
             one_news["url"] = f'http://www.torrevieja.es{news_url[i].find("a")["href"]}'
             one_news["fecha"] = str(news_fecha[i].text)
             list_news.append(one_news)
