@@ -18,3 +18,4 @@ class News(db.Model):
     
         def __repr__(self):
             return '<News {} {} {} {} {}>'.format(self.titleEs, self.url, self.fecha,self.shorttextEs,self.textEs)
+

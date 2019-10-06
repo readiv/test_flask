@@ -1,67 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>Прогноз погоды</title>
-        <!-- Bootstrap core CSS -->
-        <link href="/static/css/bootstrap.css" rel="stylesheet">
-        <!-- Custom styles for this template -->
-        <link href="/static/css/jumbotron.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="jumbotron">
-            <div class="container">
-                {% if weather %}
-                    <h1 class="display-3">Сейчас в Торревьехе {{ weather.temp_C }}</h1>
-                    <p>Ощущается как  {{ weather.FeelsLikeC }}</p>
-                {% else %}
-                    <h1 class="display-3">Сервис погоды временно недоступен</h1>
-                {% endif %}
-                <p></p>
-            </div>
-        </div>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </nav>
-        <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="container">
-            <!-- Example row of columns -->
-            {% for news in list_news %}
-                {% if loop.index0 % 3 == 0 %}
-                    <div class="row">
-                {% endif%} 
-                        <div class="col-md-4">
-                            {%if lang == "en" %}
-                                <h2>{{news.titleEn}}</h2>                            
-                                <p align="justify">{{news.shorttextEn}}</p>
-                            {% elif lang == "ru" %} 
-                                <h2>{{news.titleRu}}</h2>                            
-                                <p align="justify">{{news.shorttextRu}}</p>
-                            {% else %}
-                                <h2>{{news.titleEs}}</h2>                            
-                                <p align="justify">{{news.shorttextEs}}</p>
-                            {% endif %}
-                            <p align="right">{{news.fecha.strftime("%d.%m.%Y")}}</p>
-                            <p><a class="btn btn-secondary" href="{{news.url}}" role="button">View details »</a></p>
+{% extends 'base.html' %}
+
+{% block title %}
+    {{frazes.title}}
+{% endblock%}
+
+{% block blockweather %}
+    {% if temp_C %}
+    <h1 class="display-3">{{frazes.ahora}} {{ temp_C }} {{frazes.grados}}</h1>
+    <p>{{frazes.siente}} {{ FeelsLikeC }} {{frazes.grados}}</p>
+    {% else %}
+    <h1 class="display-3">{{frazes.disponible}}</h1>
+    {% endif %}
+{% endblock%}
+
+{% block blocknews %}
+    {% for news in list_news %}
+                    {% if loop.index0 % 3 == 0 %}
+                        <div class="row">
+                    {% endif%} 
+                            <div class="col-md-4">
+                                {%if lang == "en" %}
+                                    <h2>{{news.titleEn}}</h2>                            
+                                    <p align="justify">{{news.shorttextEn}}</p>
+                                {% elif lang == "ru" %} 
+                                    <h2>{{news.titleRu}}</h2>                            
+                                    <p align="justify">{{news.shorttextRu}}</p>
+                                {% else %}
+                                    <h2>{{news.titleEs}}</h2>                            
+                                    <p align="justify">{{news.shorttextEs}}</p>
+                                {% endif %}
+                                <p align="right">{{news.fecha.strftime("%d.%m.%Y")}}</p>
+                                <p><a class="btn btn-secondary" href="{{news.url}}" role="button">{{frazes.detalles}}</a></p>
+                            </div>
+                    {% if loop.index0 % 3  == 2 or loop.last %}
                         </div>
-                {% if loop.index0 % 3  == 2 or loop.last %}
-                    </div>
-                {% endif%}
-            {% endfor%}
-            <hr>
-        </div>         
-        <!-- /container -->
-        <!-- Bootstrap core JavaScript
-    ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <!-- <script src="static/js/jquery.min.js"></script>
-        <script src="static/js/popper.js"></script>
-        <script src="static/js/bootstrap.min.js"></script> -->
-    </body>
-</html>
+                    {% endif%}
+    {% endfor%}
+{% endblock%}

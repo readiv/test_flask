@@ -2,7 +2,6 @@ from flask import current_app
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
-from webapp.model import db,News
 
 def get_translate(text,lang='es-ru'):
     url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?'
@@ -40,21 +39,11 @@ def get_news():
                 one_news["fecha"] = datetime.strptime(str(news_fecha[i].text),"%d/%m/%Y")#03/10/2019
             except:
                 one_news["fecha"] = datetime.now()
-            save_news_db(one_news["titleEs"],one_news["url"],one_news["fecha"],one_news["shorttextEs"],"")
+            list_news.append(one_news)
+        return list_news
     except BaseException as e: 
         print(str(e))
-
-
-def save_news_db(titleEs, url, fecha, shorttextEs, textEs):
-    news_exists = News.query.filter(News.url == url).count()
-    if not news_exists:
-        
-        new_news = News(titleEs=titleEs, titleRu=get_translate(titleEs,"es-ru"), titleEn=get_translate(titleEs,"es-en"),
-                        url=url, fecha=fecha, 
-                        shorttextEs=shorttextEs,shorttextRu=get_translate(shorttextEs,"es-ru"),shorttextEn=get_translate(shorttextEs,"es-en"),
-                        textEs=textEs,textRu=get_translate(textEs,"es-ru"),textEn=get_translate(textEs,"es-en"))
-        db.session.add(new_news)
-        db.session.commit()
+        return False
 
 if __name__=="__main__":
     news_list = get_news()

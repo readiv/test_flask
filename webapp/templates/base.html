@@ -6,21 +6,33 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <title>Прогноз погоды</title>
+        <title>
+            {% block title %}
+            {% endblock%}
+        </title>
         <!-- Bootstrap core CSS -->
         <link href="/static/css/bootstrap.css" rel="stylesheet">
         <!-- Custom styles for this template -->
         <link href="/static/css/jumbotron.css" rel="stylesheet">
     </head>
     <body>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <p align="center"><a class="btn btn-secondary" href="/?lang=ru" role="button">Русский</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p align="center"><a class="btn btn-secondary" href="/?lang=en" role="button">English</a></p>
+                    </div>
+                    <div class="col-md-4">
+                        <p align="center"><a class="btn btn-secondary" href="/?lang=es" role="button">Spain</a></p>
+                    </div>
+                </div>
+            </div>
         <div class="jumbotron">
             <div class="container">
-                {% if weather %}
-                    <h1 class="display-3">Сейчас в Торревьехе {{ weather.temp_C }}</h1>
-                    <p>Ощущается как  {{ weather.FeelsLikeC }}</p>
-                {% else %}
-                    <h1 class="display-3">Сервис погоды временно недоступен</h1>
-                {% endif %}
+                {% block blockweather %}
+                {% endblock%}
                 <p></p>
             </div>
         </div>
@@ -32,29 +44,9 @@
         <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="container">
             <!-- Example row of columns -->
-            {% set column = 0 %}
-            {% for news in list_news %}
-                {% if column == 0 %}
-                    <div class="row">
-                {% endif%} 
-                        <div class="col-md-4">
-                            <h2>Новость от {{news.fecha}}</h2>
-                            <p>{{news.shorttext}}</p>
-                            <p><a class="btn btn-secondary" href="{{news.url}}" role="button">View details »</a></p>
-                        </div>
-                {% if column  == 2 %}
-                    </div>
-                {% endif%}
-                <h2>Колумн до {{column}}</h2>
-                {% set column = column+1 %}
-                <h2>  после {{column}}</h2>
-                {% if column == 3 %}
-                    {% set column = 0 %}
-                {% endif%} 
-            {% endfor%}
-            {% if column  > 0 %}
-                    </div>
-            {% endif%}
+            {% block blocknews %}
+            {% endblock%}
+            
             <hr>
         </div>         
         <!-- /container -->
