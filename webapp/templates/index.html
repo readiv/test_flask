@@ -37,8 +37,17 @@
                     <div class="row">
                 {% endif%} 
                         <div class="col-md-4">
-                            <h2>Новость от {{news.fecha}}</h2>
-                            <p>{{news.shorttext}}</p>
+                            {%if lang == "en" %}
+                                <h2>{{news.titleEn}}</h2>                            
+                                <p align="justify">{{news.shorttextEn}}</p>
+                            {% elif lang == "ru" %} 
+                                <h2>{{news.titleRu}}</h2>                            
+                                <p align="justify">{{news.shorttextRu}}</p>
+                            {% else %}
+                                <h2>{{news.titleEs}}</h2>                            
+                                <p align="justify">{{news.shorttextEs}}</p>
+                            {% endif %}
+                            <p align="right">{{news.fecha.strftime("%d.%m.%Y")}}</p>
                             <p><a class="btn btn-secondary" href="{{news.url}}" role="button">View details »</a></p>
                         </div>
                 {% if loop.index0 % 3  == 2 or loop.last %}
