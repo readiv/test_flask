@@ -7,7 +7,7 @@ def create_app():
     app.config.from_pyfile("setting.py")
     db.init_app(app)
 
-    @app.route("/")
+    @app.route("/") #Fast-
     def index():
         lang = str(request.args.get("lang"))
         if lang.find("ru") != -1:

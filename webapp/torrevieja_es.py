@@ -3,20 +3,11 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-def get_translate(text,lang='es-ru'):
-    url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?'
-    if text:
-        try:
-            text_translate = requests.post(url, data={'key': current_app.config["API_KEY_YA_TRANSLATE"], 'text': text, 'lang': lang})
-            text_translate = text_translate.json()["text"][0]
-            return text_translate
-        except BaseException as e:
-            print("############################################")
-            print(f"{lang}\n{text}") 
-            print(str(e))
-    return text
-
 def get_news():
+    """
+    Скачивание всех новостей с сайта и их парсинг
+    Возвращает словарь с новостями либо False
+    """
     url = "http://www.torrevieja.es/sal/index.aspx"
     try:
         html = requests.get(url).text
@@ -44,10 +35,3 @@ def get_news():
     except BaseException as e: 
         print(str(e))
         return False
-
-if __name__=="__main__":
-    news_list = get_news()
-    if news_list:
-        print(news_list)
-    #print(get_translate("L COINCIDIENDO CON LA CELEBRACIÓN DE HALLOWEEN"))
-    pass

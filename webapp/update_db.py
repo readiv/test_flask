@@ -1,10 +1,14 @@
 from flask import current_app
 from webapp.model import db,News
-from webapp.torrevieja_es import get_news,get_translate
-from webapp.weather import update_weather
+from webapp.torrevieja_es import get_news
+from webapp.tiempo import tiempo_update
+from webapp.translate import get_translate
 
 
 def save_news_db(titleEs, url, fecha, shorttextEs, textEs):
+    """
+    Если этой новости нет, то перевести и добавить в БД
+    """
     news_exists = News.query.filter(News.url == url).count()
     if not news_exists:        
         new_news = News(titleEs=titleEs, titleRu=get_translate(titleEs,"es-ru"), titleEn=get_translate(titleEs,"es-en"),
@@ -16,7 +20,12 @@ def save_news_db(titleEs, url, fecha, shorttextEs, textEs):
 
 
 def update_all_info():
-    update_weather()
+    """
+    Для вызова по таймеру
+    Обновить погоду
+    Обновить новости
+    """
+    tiempo_update()
     list_news = get_news()
     if list_news:
         for one_news in list_news:
