@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{frazes.title}}
+    {{_("Torrevieja")}}
 {% endblock%}
 
 {% block blockweather %}
     {% if temp_C %}
-    <h1 class="display-3">{{frazes.ahora}} {{ temp_C }} {{frazes.grados}}</h1>
-    <p>{{frazes.siente}} {{ FeelsLikeC }} {{frazes.grados}}</p>
+    <h1 class="display-3">{{_("Ahora en Torrevieja")}} {{ temp_C }} {{_("grados")}}</h1>
+    <p>{{_("Se siente como")}} {{ FeelsLikeC }} {{_("grados")}}</p>
     {% else %}
-    <h1 class="display-3">{{frazes.disponible}}</h1>
+    <h1 class="display-3">{{_("El servicio meteorológico no está disponible temporalmente")}}</h1>
     {% endif %}
 {% endblock%}
 
@@ -30,7 +30,7 @@
                                     <p align="justify">{{news.shorttextEs}}</p>
                                 {% endif %}
                                 <p align="right">{{news.fecha.strftime("%d.%m.%Y")}}</p>
-                                <p><a class="btn btn-secondary" href="{{news.url}}" role="button">{{frazes.detalles}}</a></p>
+                                <p><a class="btn btn-secondary" href="{{news.url}}" role="button">{{_("Más detalles »")}}</a></p>
                             </div>
                     {% if loop.index0 % 3  == 2 or loop.last %}
                         </div>
