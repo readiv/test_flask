@@ -20,13 +20,13 @@
                     {% endif%} 
                             <div class="col-md-4">
                                 {%if lang == "en" %}
-                                    <h2>{{news.titleEn}}</h2>                            
+                                    <h4>{{news.titleEn}}</h4>                            
                                     <p align="justify">{{news.shorttextEn}}</p>
                                 {% elif lang == "ru" %} 
-                                    <h2>{{news.titleRu}}</h2>                            
+                                    <h4>{{news.titleRu}}</h4>                            
                                     <p align="justify">{{news.shorttextRu}}</p>
                                 {% else %}
-                                    <h2>{{news.titleEs}}</h2>                            
+                                    <h4>{{news.titleEs}}</h4>                            
                                     <p align="justify">{{news.shorttextEs}}</p>
                                 {% endif %}
                                 <p align="right">{{news.fecha.strftime("%d.%m.%Y")}}</p>

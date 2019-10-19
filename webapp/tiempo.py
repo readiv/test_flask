@@ -1,11 +1,12 @@
 from flask import current_app
 import requests
 
+
 def tiempo_en_ciudad(city_name):
     """
     Возвращает погоду в городе city_name
     Настройки хранятся в setting.py
-    Затем подгружаются в конфиг flask 
+    Затем подгружаются в конфиг flask
     Возврат либо словарь с данными, либо False
     """
     tiempo_url = current_app.config["TIEMPO_URL"]
@@ -19,8 +20,9 @@ def tiempo_en_ciudad(city_name):
     try:
         tiempo_data = requests.get(tiempo_url, params=params).json()
         return tiempo_data['data']['current_condition'][0]
-    except (requests.RequestException,IndexError,TypeError):
-        return False  
+    except (requests.RequestException, IndexError, TypeError):
+        return False
+
 
 def tiempo_update():
     """
@@ -28,12 +30,15 @@ def tiempo_update():
     Планируется для вызовов в очереди или по таймеру
     """
 
-    tiempo_ahora = tiempo_en_ciudad(current_app.config["TIEMPO_DEFAULT_CITY"]) 
-    try:
-        current_app.config["temp_C"] = tiempo_ahora["temp_C"]
-        current_app.config["FeelsLikeC"] = tiempo_ahora["FeelsLikeC"]
-    except:
-        current_app.config["temp_C"] = False
-        current_app.config["FeelsLikeC"] = False
+    tiempo_ahora = tiempo_en_ciudad(current_app.config["TIEMPO_DEFAULT_CITY"])
+    if tiempo_ahora:
+        temp_C = tiempo_ahora.get("temp_C")
+        FeelsLikeC = tiempo_ahora.get("FeelsLikeC")
 
+        if temp_C is not None and FeelsLikeC is not None:
+            current_app.config["temp_C"] = temp_C
+            current_app.config["FeelsLikeC"] = FeelsLikeC
+            return
 
+    current_app.config["temp_C"] = False
+    current_app.config["FeelsLikeC"] = False
